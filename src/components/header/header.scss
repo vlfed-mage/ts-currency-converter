@@ -1,0 +1,26 @@
+.header {
+    background: #00214a;
+    color: aliceblue;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    position: relative;
+    z-index: 40;
+    padding: 15px;
+
+    h2 {
+        margin: 0 auto 0 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 860px;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .exchange-rate {
+        margin-left: 16px;
+    }
+}

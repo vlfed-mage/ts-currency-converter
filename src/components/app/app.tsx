@@ -7,10 +7,12 @@ import CurrencyConverter from '../currency-converter';
 
 const App: React.FC = () => {
     return (
-        <main>
+        <>
             <Header />
-            <CurrencyConverter />
-        </main>
+            <main>
+                <CurrencyConverter />
+            </main>
+        </>
     );
 };
 
