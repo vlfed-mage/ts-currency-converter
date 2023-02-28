@@ -37,7 +37,7 @@ const ExchangeRate: React.FC<Props> = ({ from }) => {
 
     const currentRate = loading ? '--' : rate;
 
-    return <span>{`${from.toUpperCase()}: ${currentRate}`}</span>;
+    return <span className='exchange-rate'>{`${from.toUpperCase()}: ${currentRate}`}</span>;
 };
 
 export default ExchangeRate;

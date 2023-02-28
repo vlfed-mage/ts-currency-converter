@@ -35,10 +35,12 @@ const CurrencyConverter: React.FC = () => {
     const [fromState, setFromState] = useState<string>(initialParams.from);
     const [amountState, setAmountState] = useState<number>(1);
     const [exchangeRage, setExchangeRage] = useState<number | undefined>();
+    const [loading, setLoading] = useState<boolean>(true);
     const [flag, setFlag] = useState<boolean>(true);
 
     useEffect(() => {
         let active = true;
+        setLoading(true);
         const { getRates }: Services = services();
 
         getRates(from, to).then(({ result }: RatesData) => {
@@ -46,6 +48,7 @@ const CurrencyConverter: React.FC = () => {
                 setExchangeRage(result);
                 setFromState(from);
                 setToState(to);
+                setLoading(false);
             }
         });
 
@@ -54,12 +57,16 @@ const CurrencyConverter: React.FC = () => {
         };
     }, [from, to]);
 
-    const handleAmountUpdate = ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAmountUpdate = ({
+        target: { name, value },
+    }: React.ChangeEvent<HTMLInputElement>) => {
         setAmountState(parseFloat(value));
         setFlag(name === 'amount');
     };
 
-    const handleCurrencyUpdate = ({ target: { name, value } }: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleCurrencyUpdate = ({
+        target: { name, value },
+    }: React.ChangeEvent<HTMLSelectElement>) => {
         setParams({ ...Object.fromEntries([...params]), [name]: value });
     };
 
@@ -76,38 +83,47 @@ const CurrencyConverter: React.FC = () => {
     }
 
     return (
-        <div className='currency-converter'>
-            <h2>Currency Converter</h2>
-            <div className='select-wrapper'>
-                from
-                <Select
-                    name='from'
-                    value={fromState}
-                    onChangeHandler={handleCurrencyUpdate}
-                />
-                <input
-                    name='amount'
-                    type='number'
-                    value={fromAmount.current}
-                    onChange={handleAmountUpdate}
-                />
+        <>
+            <h2>Currency converter</h2>
+            <div className='currency-converter'>
+                <div className='select-wrapper'>
+                    <Select
+                        name='from'
+                        value={fromState}
+                        loading={loading}
+                        onChangeHandler={handleCurrencyUpdate}
+                    />
+                    <input
+                        name='amount'
+                        type='number'
+                        value={fromAmount.current}
+                        onChange={handleAmountUpdate}
+                        disabled={loading}
+                    />
+                </div>
+                <button
+                    className='currency-direction'
+                    disabled={loading}
+                    onClick={handleDirectionUpdate}>
+                    <img src='/icons/arrow.png' alt='' />
+                </button>
+                <div className='select-wrapper'>
+                    <Select
+                        name='to'
+                        value={toState}
+                        loading={loading}
+                        onChangeHandler={handleCurrencyUpdate}
+                    />
+                    <input
+                        name='result'
+                        type='number'
+                        value={toAmount.current}
+                        onChange={handleAmountUpdate}
+                        disabled={loading}
+                    />
+                </div>
             </div>
-            <div className='select-wrapper'>
-                to
-                <Select
-                    name='to'
-                    value={toState}
-                    onChangeHandler={handleCurrencyUpdate}
-                />
-                <input
-                    name='result'
-                    type='number'
-                    value={toAmount.current}
-                    onChange={handleAmountUpdate}
-                />
-            </div>
-            <button onClick={handleDirectionUpdate}>change</button>
-        </div>
+        </>
     );
 };
 
