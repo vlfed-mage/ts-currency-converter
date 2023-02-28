@@ -5,6 +5,7 @@ import './currency-converter.scss';
 import services from '../../services';
 
 import Select from '../select';
+import LoadingIndicator from '../loading-indicator';
 
 type Params = {
     from: string;
@@ -105,7 +106,7 @@ const CurrencyConverter: React.FC = () => {
                     className='currency-direction'
                     disabled={loading}
                     onClick={handleDirectionUpdate}>
-                    <img src='/icons/arrow.png' alt='' />
+                    {loading ? <LoadingIndicator /> : <img src='/icons/arrow.png' alt='' />}
                 </button>
                 <div className='select-wrapper'>
                     <Select
